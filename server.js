@@ -21,7 +21,7 @@ function filterByQuery(query, animalsArray) {
         // Loop through each trait in the personalityTraits array:
         personalityTraitsArray.forEach(trait => {
             // Check the trait against each animal in the filteredResults array.
-            // Remember, it is initially a copy of the animlasArray,
+            // Remember, it is initially a copy of the animalsArray,
             // but here we're updating it for each trait in the .forEach() loop.
             // For each trait being targeted by the filter, the filteredResults
             // array will then contain only the entries that contain the trait,
@@ -44,6 +44,13 @@ function filterByQuery(query, animalsArray) {
     return filteredResults;
 }
 
+function findById(id, animalsArray) {
+    const result = animalsArray.filter(animal => animal.id === id)[0];
+    return result;
+}
+
+
+
 
 
 
@@ -54,6 +61,17 @@ app.get('/api/animals', (req, res) => {
     }
     res.json(results);
 });
+
+app.get('/api/animals/:id', (req, res) => {
+    const result = findById(req.params.id, animals);
+    if (result) {
+        res.json(result);
+    } else {
+        res.send(404);
+    } 
+});
+
+
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
 });
